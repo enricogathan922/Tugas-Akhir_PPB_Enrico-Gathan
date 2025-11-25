@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import API from "@/lib/API";
+import API from "@/lib/api";
 import {
   ArrowUpRight,
   ArrowDownLeft,
