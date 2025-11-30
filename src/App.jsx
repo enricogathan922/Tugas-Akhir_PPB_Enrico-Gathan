@@ -8,6 +8,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import TransactionDetail from "./pages/TransactionDetail";
+import TransactionHistory from "./pages/TransactionHistory";
 
 export default function App() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -58,7 +59,7 @@ export default function App() {
           <nav className="hidden md:block bg-white border-b border-gray-200 sticky top-0 z-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex items-center justify-between h-16">
-                {/* LEFT SECTION: Logo + Menu */}
+                {/* LEFT SECTION */}
                 <div className="flex items-center gap-8">
                   <Link to="/" className="font-bold text-xl text-blue-600">
                     <img src="logo.png" className="h-10" alt="" />
@@ -87,6 +88,18 @@ export default function App() {
                       Transactions
                     </Link>
 
+                    {/* NEW: Transaction History */}
+                    <Link
+                      to="/transaction-history"
+                      className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                        location.pathname === "/transaction-history"
+                          ? "bg-blue-100 text-blue-700"
+                          : "text-gray-600 hover:bg-gray-100"
+                      }`}
+                    >
+                      History
+                    </Link>
+
                     <Link
                       to="/about"
                       className={`px-4 py-2 rounded-lg font-medium transition-colors ${
@@ -100,7 +113,7 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* RIGHT SECTION: Actions (Install + Logout) */}
+                {/* RIGHT SECTION */}
                 <div className="flex items-center gap-3">
                   {showInstall && (
                     <button
@@ -137,7 +150,7 @@ export default function App() {
             </div>
           </nav>
 
-          {/* Mobile Bottom Navigation */}
+          {/* Mobile Navigation */}
           <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50">
             <div className="flex justify-around items-center h-16">
               <Link
@@ -163,6 +176,7 @@ export default function App() {
                 </svg>
                 <span className="text-xs mt-1">Dashboard</span>
               </Link>
+
               <Link
                 to="/transactions"
                 className={`flex flex-col items-center justify-center flex-1 h-full transition-colors ${
@@ -181,11 +195,37 @@ export default function App() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"
                   />
                 </svg>
                 <span className="text-xs mt-1">Transactions</span>
               </Link>
+
+              {/* NEW: Transaction History */}
+              <Link
+                to="/transaction-history"
+                className={`flex flex-col items-center justify-center flex-1 h-full transition-colors ${
+                  location.pathname === "/transaction-history"
+                    ? "text-blue-600"
+                    : "text-gray-600"
+                }`}
+              >
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"
+                  />
+                </svg>
+                <span className="text-xs mt-1">History</span>
+              </Link>
+
               <Link
                 to="/about"
                 className={`flex flex-col items-center justify-center flex-1 h-full transition-colors ${
@@ -214,24 +254,12 @@ export default function App() {
         </>
       )}
 
+      {/* Install button at landing page */}
       {isLandingPage && showInstall && (
         <button
           onClick={handleInstall}
           className="fixed top-6 right-6 z-50 inline-flex items-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-blue-700 transition-colors shadow-lg text-sm"
         >
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-            />
-          </svg>
           Install App
         </button>
       )}
@@ -269,6 +297,15 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <TransactionDetail />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/transaction-history"
+            element={
+              <ProtectedRoute>
+                <TransactionHistory />
               </ProtectedRoute>
             }
           />
